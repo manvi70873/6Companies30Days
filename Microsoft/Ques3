@@ -1,0 +1,80 @@
+class Solution {
+
+
+    vector<int> freq(string s){
+        vector<int>v(10,0);
+        for(int i=0;i<s.length();i++){
+            string str(1, s[i]);
+            int index=stoi(str);
+            v[index]++;
+        }
+        return v;
+    }
+
+    bool pre(vector<int>pos,int index){
+        for(auto i:pos){
+            if(i==index) return true;
+        }
+        return false;
+    }
+
+public:
+    string getHint(string s, string g) {
+        if(s==g){
+            return to_string(s.length())+"A"+"0B";
+        }
+
+
+
+        int bc=0;
+        int cc=0;
+        vector<int>pos;
+        for(int i=0,j=0;i<s.length() && j<g.length();i++,j++){
+            if(s[i]==g[j]){
+                pos.push_back(i);
+                bc++;
+            }
+        }
+
+
+        string ss="";
+        string gg="";
+        
+        for(int i=0;i<s.length();i++){
+            if(pre(pos,i)==false){
+                ss+=s[i];
+            }
+        }
+
+        for(int i=0;i<g.length();i++){
+            if(pre(pos,i)==false){
+                gg+=g[i];
+            }
+        }
+        
+
+        vector<int>sf(10,0);
+        vector<int>gf(10,0);
+
+        sf=freq(ss);
+        gf=freq(gg);
+
+        
+        
+
+
+        for(int i=0,j=0;i<sf.size() && j<gf.size();i++,j++){
+            if(sf[i]!=0 && gf[j]!=0){
+                int mini=min(sf[i],gf[i]);
+                cc+=mini;
+            }
+        }
+
+        string ans="";
+        ans+=to_string(bc);
+        ans+="A";
+        ans+=to_string(cc);
+        ans+="B";
+        return ans;
+    }
+};
