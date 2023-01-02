@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int numberOfSubstrings(string s) {
+        int a_index=-1;
+        int b_index=-1;
+        int c_index=-1;
+        int count=0;
+        for(int i=0;i<s.length();i++){
+            if(s[i]=='a') a_index=i;
+            else if(s[i]=='b') b_index=i;
+            else c_index=i;
+
+            if(i>1){
+                count+=min(a_index,min(b_index,c_index))+1;
+            }
+        }
+        return count;
+    }
+};
