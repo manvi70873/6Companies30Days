@@ -1,0 +1,43 @@
+class Solution {
+    //graph is cyclic or not wala func
+    bool cyclic(int s,vector<bool>&visit,vector<bool>&curr_visit,vector<int> adj[]){
+        visit[s]=true;
+        curr_visit[s]=true;
+
+        vector<int> data;
+        data=adj[s];
+        for(auto i:data){
+            if(!visit[i]){
+                if(cyclic(i,visit,curr_visit,adj)){
+                    return true;
+                }
+            }
+            else if(visit[i] && curr_visit[i]){
+                return true;
+            }
+        }
+        curr_visit[s]=false;
+        return false;
+    }
+public:
+    bool canFinish(int n, vector<vector<int>>& p) {
+        vector<int> adj[n];
+
+        for(int i=0;i<p.size();i++){
+            adj[p[i][0]].push_back(p[i][1]);
+        }
+
+
+        vector<bool>visit(n,false);
+        vector<bool>curr_visit(n,false);
+
+        for(int i=0;i<n;i++){
+            if(!visit[i]){
+                if(cyclic(i,visit,curr_visit,adj)){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+};
